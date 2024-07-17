@@ -193,7 +193,3 @@ if make_config:
     if not os.path.exists(args.model_path):
         os.system("mkdir {}".format(args.model_path))
     create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
-
-
-    
-
