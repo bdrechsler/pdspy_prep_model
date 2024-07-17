@@ -1,6 +1,6 @@
 import os
 
-def create_submit(source, model_path, environ, user, ncpu):
+def create_batch_submit(source, model_path, environ, user, ncpu):
     fname = model_path + "_batch_submit.sh"
     home_dir = os.environ['HOME']
     with open(fname, 'w') as batch:
