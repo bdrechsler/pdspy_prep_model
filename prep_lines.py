@@ -14,18 +14,18 @@ from create_config import create_config
 ######################################"""
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-s', '--source', type=str)
-parser.add_argument('-w', '--width', type=str, default='0.334km/s')
-parser.add_argument('-n', '--nchan', type=int, default=36)
-parser.add_argument('-v', '--svel', type=str, default='0.0km/s')
-parser.add_argument('-l', '--line', type=str, default='C18O')
-parser.add_argument('-uv', '--uvcut', action='store_false')
-parser.add_argument('-r', '--robust', type=float, default=2.0)
-parser.add_argument('-p', '--data_path', type=str, default='./data/')
-parser.add_argument('-m', '--model_path', type=str)
-parser.add_argument('-dt', '--disk_type', type=str, default='dartois-truncated')
-parser.add_argument('-d', '--dpc', type=float, default=132.)
-parser.add_argument('-c', '--just_config', action='store_true')
+parser.add_argument('--source', type=str)
+parser.add_argument('--chan_width', type=str, default='0.334km/s')
+parser.add_argument('--nchan', type=int, default=36)
+parser.add_argument('--svel', type=str, default='-2.0km/s')
+parser.add_argument('--line', type=str, default='C18O')
+parser.add_argument('--uvcut', action='store_false')
+parser.add_argument('--robust', type=float, default=2.0)
+parser.add_argument('--data_dir', type=str, default='./data/')
+parser.add_argument('--model_dir', type=str)
+parser.add_argument('--disk_type', type=str, default='dartois-truncated')
+parser.add_argument('--dpc', type=float, default=132.)
+parser.add_argument('--action', type=str)
 args = parser.parse_args()
 
 line_dict = {'C18O': '219.56035410GHz',
@@ -34,15 +34,19 @@ line_dict = {'C18O': '219.56035410GHz',
              'C17O': '224.714743800GHz'}
 
 source = args.source # source name
-wid = args.width # channel width
-nch = args.nchan # number of channels
+chan_width = args.chan_width # channel width
+nchan = args.nchan # number of channels
 svel = args.svel # starting velocity
 linename = args.line
 rfreq = line_dict[linename] # rest freq of line
 parallel = False
 
+prep_data = False
+make_config = False
+make_start_script = False
+
 # path to data
-data_dir = args.data_path
+data_dir = args.data_dir
 line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
 
 """
