@@ -1,7 +1,7 @@
 import os
 
 def create_batch_submit(source, model_path, environ, user, ncpu):
-    fname = model_path + "_batch_submit.sh"
+    fname = model_path + "batch_submit.sh"
     home_dir = os.environ['HOME']
     with open(fname, 'w') as batch:
         batch.write('#PBS -S /bin/sh\n')
@@ -10,7 +10,7 @@ def create_batch_submit(source, model_path, environ, user, ncpu):
         batch.write('#PBS -j oe\n')
         batch.write('#PBS -m bae\n')
         batch.write('#PBS -N {}\n'.format(source))
-        batch.write('source {}.bash_profile\n'.format(source))
+        batch.write('source {}/.bash_profile\n'.format(home_dir))
         batch.write('cd {}\n'.format(model_path))
         batch.write('conda activate {}\n'.format(environ))
         batch.write('rm nodelist\n')

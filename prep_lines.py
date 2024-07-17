@@ -7,7 +7,7 @@ from casatasks import mstransform, tclean, listobs, concat, rmtables, impbcor, e
 import pdspy.interferometry as uv
 import argparse
 from create_config import create_config
-
+from create_batch_submit import create_batch_submit
 
 """###################################
 ###### Regridding Parameters #########
@@ -190,6 +190,6 @@ if prep_data:
     new_data.write(output_file)
 
 if make_config:
-    if not os.path.exists(args.model_path):
+    if not os.path.exists(args.model_dir):
         os.system("mkdir {}".format(args.model_path))
     create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
