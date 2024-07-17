@@ -45,6 +45,18 @@ prep_data = False
 make_config = False
 make_start_script = False
 
+if args.action=='all':
+    prep_data=True
+    make_config=True
+    make_start_script=True
+elif args.action == 'make_scripts':
+    make_config=True
+    make_start_script=True
+elif args.action == 'config':
+    make_config=True
+elif args.action == 'start_script':
+    make_start_script=True
+
 # path to data
 data_dir = args.data_dir
 line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
@@ -52,7 +64,7 @@ line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral lin
 """
 #### Regrid the data #####
 """
-if not args.just_config:
+if prep_data:
     regrid_vis = []
 
     for line_vis in line_vis_list:
@@ -176,9 +188,10 @@ if not args.just_config:
     new_data = uv.Visibilities(new_u, new_v, data.freq, new_real, new_imag, new_weights)
     new_data.write(output_file)
 
-if not os.path.exists(args.model_path):
-    os.system("mkdir {}".format(args.model_path))
-create_config(data_dir, args.model_path, linename, args.disk_type, args.dpc)
+if make_config:
+    if not os.path.exists(args.model_path):
+        os.system("mkdir {}".format(args.model_path))
+    create_config(data_dir, args.model_path, linename, args.disk_type, args.dpc)
 
 
     
