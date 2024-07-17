@@ -18,6 +18,6 @@ def create_batch_submit(source, model_path, environ, user, ncpu):
         batch.write('cat $PBS_NODEFILE > pbs_nodefile\n')
         batch.write('echo $PBS_NODEFILE > pbs_nodefile_path\n')
         batch.write('python3 makenodelist.py\n')
-        batch.write('mpiexec -np {0} --hostfile nodelist flared_model_nested.py --object {1} --ncpus 1 --ftcode galario-unstructured\n'.format(ncpu, source))
+        batch.write('mpiexec -np 112 --hostfile nodelist flared_model_nested.py --object {0} --ncpus 1 --ftcode galario-unstructured\n'.format(source))
 
 
