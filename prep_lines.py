@@ -41,6 +41,7 @@ linename = args.line
 rfreq = line_dict[linename] # rest freq of line
 parallel = False
 
+# determine which steps to perform
 prep_data = False
 make_config = False
 make_start_script = False
@@ -105,7 +106,7 @@ if prep_data:
 
         mstransform(vis=line_vis, regridms=True, mode='velocity', outputvis=outfile,
                     outframe='LSRK', veltype='radio', restfreq=rfreq, datacolumn='data',
-                    width=wid, nchan=nch, start=svel, combinespws=False, keepflags=False,
+                    width=chan_width, nchan=nchan, start=svel, combinespws=False, keepflags=False,
                     timeaverage=True, timebin='30.25s', spw=spw)
         
         regrid_vis.append(outfile)
@@ -126,7 +127,7 @@ if prep_data:
         uvrange='all'
 
     tclean(vis=regrid_vis, spw='', imagename=imagename, specmode='cube', imsize=512,
-        deconvolver='hogbom', start=svel, width=wid, nchan=nch, outframe='LSRK',
+        deconvolver='hogbom', start=svel, width=chan_width, nchan=nchan, outframe='LSRK',
         veltype='radio', restfreq=rfreq, cell='0.025arcsec',
         gain=0.1, niter=20000, weighting='briggs', robust=args.robust, threshold='1.0mJy',
         usemask='auto-multithresh', sidelobethreshold=2.0, noisethreshold=4.0,
@@ -191,7 +192,7 @@ if prep_data:
 if make_config:
     if not os.path.exists(args.model_path):
         os.system("mkdir {}".format(args.model_path))
-    create_config(data_dir, args.model_path, linename, args.disk_type, args.dpc)
+    create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
 
 
     
