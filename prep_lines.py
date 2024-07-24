@@ -134,23 +134,8 @@ if prep_data:
         lownoisethreshold=1.0, interactive=False, restoringbeam='common',
         uvtaper=['2000klambda'], uvrange=uvrange, parallel=parallel)
 
-    # primary beam correction
-    myimages = glob.glob(data_dir + "*.image")
-
-    rmtables(data_dir + '*.pbcor')
-    for image in myimages:
-        impbcor(imagename=image, pbimage=image.replace('.image','.pb'), outfile=image.replace('.image', '.pbcor'))
-
     # export the images
     myimages = glob.glob(data_dir + "*.image")
-    for image in myimages:
-        exportfits(imagename=image, fitsimage=image+'.fits', overwrite=True)
-
-    myimages = glob.glob(data_dir + '*.pbcor')
-    for image in myimages:
-        exportfits(imagename=image, fitsimage=image+'.fits', overwrite=True)
-
-    myimages = glob.glob(data_dir + "*.pb")
     for image in myimages:
         exportfits(imagename=image, fitsimage=image+'.fits', overwrite=True)
 
