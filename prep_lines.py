@@ -66,6 +66,7 @@ line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral lin
 #### Regrid the data #####
 """
 if prep_data:
+    print("Regridding")
     regrid_vis = []
 
     for line_vis in line_vis_list:
@@ -114,6 +115,7 @@ if prep_data:
     """
     ##### Clean and Image the Data #######
     """
+    print("Imaging")
 
     imagename = data_dir + source + '_' + linename + '_t2000klam'
     for ext in ['.image','.mask','.model','.pb','.psf','.residual','.sumwt','.workingdirectory']:
@@ -145,7 +147,7 @@ if prep_data:
     """
     ###### Write Data to an HDF5 file #######
     """
-
+    print("Writting hdf5")
     # concatinate regridded visibility files
     os.system("rm -rf " + data_dir + "*concat.ms")
     concat_file = data_dir + source + '_' + linename + '_' + 'concat.ms'
