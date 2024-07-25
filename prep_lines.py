@@ -180,3 +180,6 @@ if make_config:
     if not os.path.exists(args.model_dir):
         os.system("mkdir {}".format(args.model_dir))
     create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
+
+if make_start_script:
+    create_batch_submit(source, args.model_dir, "wdrechsl", "pdspy-2.0.8")
