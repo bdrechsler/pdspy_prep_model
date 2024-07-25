@@ -25,6 +25,7 @@ parser.add_argument('--data_dir', type=str, default='./data/')
 parser.add_argument('--model_dir', type=str)
 parser.add_argument('--disk_type', type=str, default='dartois-truncated')
 parser.add_argument('--dpc', type=float, default=132.)
+parser.add_argument('--user', type=str, default='')
 parser.add_argument('--action', type=str)
 args = parser.parse_args()
 
@@ -182,4 +183,4 @@ if make_config:
     create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
 
 if make_start_script:
-    create_batch_submit(source, args.model_dir, "wdrechsl", "pdspy-2.0.8")
+    create_batch_submit(source, args.model_dir, args.user)

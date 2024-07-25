@@ -1,6 +1,6 @@
 import os
 
-def create_batch_submit(source, model_path, user, environ='pdspy-2024'):
+def create_batch_submit(source, model_path, user, environ='pdspy-2.0.8'):
     fname = model_path + "batch_submit.sh"
     home_dir = os.environ['HOME']
     with open(fname, 'w') as batch:
