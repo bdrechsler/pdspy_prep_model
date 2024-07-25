@@ -26,6 +26,7 @@ parser.add_argument('--model_dir', type=str)
 parser.add_argument('--disk_type', type=str, default='dartois-truncated')
 parser.add_argument('--dpc', type=float, default=132.)
 parser.add_argument('--user', type=str, default='')
+parser.add_argument('--remove_files', action='store_true')
 parser.add_argument('--action', type=str)
 args = parser.parse_args()
 
@@ -172,10 +173,14 @@ if prep_data:
     new_imag = data.imag[good,:]
     new_weights = data.weights[good,:]
     # create hdf5 file
-    os.system("rm -rf *.hdf5")
+    os.system("rm -rf {}/*.hdf5".format(data_dir))
     output_file = data_dir + source + '_' + linename + cut_name +  '.hdf5'
     new_data = uv.Visibilities(new_u, new_v, data.freq, new_real, new_imag, new_weights)
     new_data.write(output_file)
+    if args.remove_files:
+        os.system('rm -rf {}/*.ms'.format(data_dir))
+        os.system('rm -rf {}/*.listobs'.format(data_dir))
+
 
 if make_config:
     if not os.path.exists(args.model_dir):
