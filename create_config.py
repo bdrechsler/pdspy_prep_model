@@ -23,9 +23,9 @@ def write_dynesty_params(file, nwalkers=100, steps_per_iter=20, max_nsteps=2000,
     file.write('walks = {}\n\n'.format(walks))
 
 
-def create_config(source_dir, line, disk_type, dpc):
-    data_file = glob.glob("../data/*.hdf5")[0]
-    image_file = glob.glob("../data/*.image.fits")[0]
+def create_config(source, source_dir, line, disk_type, dpc):
+    data_file = "../data/{0}_{1}_50klam.hdf5".format(source, line)
+    image_file= "../data/{0}_{1}_t2000klam.image.fits".format(source, line)
 
     line_dict = {'C18O': '219.56035410GHz',
                 '13CO': '220.39868420GHz',
