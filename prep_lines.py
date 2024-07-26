@@ -110,10 +110,7 @@ def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename, remov
     for ext in ['.image','.mask','.model','.pb','.psf','.residual','.sumwt','.workingdirectory']:
         os.system('rm -rf ' + imagename + ext)
 
-    if args.uvcut:
-        uvrange='>50klambda'
-    else:
-        uvrange='all'
+    uvrange='>50klambda'
 
     tclean(vis=regrid_vis, spw='', imagename=imagename, specmode='cube', imsize=512,
         deconvolver='hogbom', start=svel, width=chan_width, nchan=nchan, outframe='LSRK',
