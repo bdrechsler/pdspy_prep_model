@@ -21,7 +21,7 @@ def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.
         batch.write('python3 makenodelist.py\n')
         batch.write('mpiexec -np 112 --hostfile nodelist flared_model_nested.py --object {0} --ncpus 1 --ftcode galario-unstructured\n'.format(source))
 
-    with open('make_nodelist.py', 'w') as nodelist:
+    with open(model_path + 'make_nodelist.py', 'w') as nodelist:
         nodelist.write("file1=open('pbs_nodefile')\n")
         nodelist.write("nodeline=file1.readlines()\n")
         nodelist.write("file1.close()\n")
