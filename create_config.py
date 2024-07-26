@@ -23,7 +23,7 @@ def write_dynesty_params(file, nwalkers=100, steps_per_iter=20, max_nsteps=2000,
     file.write('walks = {}\n\n'.format(walks))
 
 
-def create_config(data_path, model_path, line, disk_type, dpc):
+def create_config(source_dir, line, disk_type, dpc):
     data_file = glob.glob("../data/*.hdf5")[0]
     image_file = glob.glob("../data/*.image.fits")[0]
 
@@ -118,8 +118,9 @@ def create_config(data_path, model_path, line, disk_type, dpc):
             parameters["pltgas_mid"] = {"fixed":False, "value":0.5, "limits":[0.,1.]}
             parameters["pltgas_atm"] = {"fixed":False, "value":"pltgas_mid", "limits":[0.,1.]}
             parameters["zq0"] = {"fixed":False, "value":0.1, "limits":[0.01,0.5]}
-
-    with open(model_path + 'config.py', 'w') as config:
+    
+    model_dir = "{0}{1}/".format(source_dir, disk_type)
+    with open(model_dir + 'config.py', 'w') as config:
         # write import statements
         config.write('import numpy as np\n')
         config.write('import os\n\n')

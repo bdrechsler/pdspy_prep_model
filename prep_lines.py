@@ -49,9 +49,9 @@ from create_batch_submit import create_batch_submit
 # make_start_script = False
 
 
-def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename, remove_files=True):
+def prep_data(source, source_dir, chan_width, nchan, svel, robust, linename, remove_files):
 
-    line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
+    line_vis_list = glob.glob(source_dir + "data/*spectral_line.ms") # list of spectral line ms files
     rfreq = '219.56035410GHz' # assume C18O
 
     """
@@ -118,7 +118,7 @@ def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename, remov
         gain=0.1, niter=20000, weighting='briggs', robust=robust, threshold='1.0mJy',
         usemask='auto-multithresh', sidelobethreshold=2.0, noisethreshold=4.0,
         lownoisethreshold=1.0, interactive=False, restoringbeam='common',
-        uvtaper=['2000klambda'], uvrange=uvrange, parallel=parallel)
+        uvtaper=['2000klambda'], uvrange=uvrange, parallel=False)
 
     # export the images
     myimages = glob.glob(data_dir + "*.image")
