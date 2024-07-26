@@ -13,54 +13,43 @@ from create_batch_submit import create_batch_submit
 ###### Regridding Parameters #########
 ######################################"""
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--source', type=str)
-parser.add_argument('--chan_width', type=str, default='0.334km/s')
-parser.add_argument('--nchan', type=int, default=36)
-parser.add_argument('--svel', type=str, default='-2.0km/s')
-parser.add_argument('--line', type=str, default='C18O')
-parser.add_argument('--uvcut', action='store_false')
-parser.add_argument('--robust', type=float, default=2.0)
-parser.add_argument('--data_dir', type=str, default='./data/')
-parser.add_argument('--model_dir', type=str)
-parser.add_argument('--disk_type', type=str, default='dartois-truncated')
-parser.add_argument('--dpc', type=float, default=132.)
-parser.add_argument('--user', type=str, default='')
-parser.add_argument('--remove_files', action='store_true')
-parser.add_argument('--action', type=str)
-args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--source', type=str)
+# parser.add_argument('--chan_width', type=str, default='0.334km/s')
+# parser.add_argument('--nchan', type=int, default=36)
+# parser.add_argument('--svel', type=str, default='-2.0km/s')
+# parser.add_argument('--line', type=str, default='C18O')
+# parser.add_argument('--uvcut', action='store_false')
+# parser.add_argument('--robust', type=float, default=2.0)
+# parser.add_argument('--data_dir', type=str, default='./data/')
+# parser.add_argument('--model_dir', type=str)
+# parser.add_argument('--disk_type', type=str, default='dartois-truncated')
+# parser.add_argument('--dpc', type=float, default=132.)
+# parser.add_argument('--user', type=str, default='')
+# parser.add_argument('--remove_files', action='store_true')
+# parser.add_argument('--action', type=str)
+# args = parser.parse_args()
 
-line_dict = {'C18O': '219.56035410GHz',
-             '13CO': '220.39868420GHz',
-             'CH3OH': '241.80652400GHz',
-             'C17O': '224.714743800GHz'}
+# line_dict = {'C18O': '219.56035410GHz',
+#              '13CO': '220.39868420GHz',
+#              'CH3OH': '241.80652400GHz',
+#              'C17O': '224.714743800GHz'}
 
-source = args.source # source name
-chan_width = args.chan_width # channel width
-nchan = args.nchan # number of channels
-svel = args.svel # starting velocity
-linename = args.line
-rfreq = line_dict[linename] # rest freq of line
-parallel = False
+# source = args.source # source name
+# chan_width = args.chan_width # channel width
+# nchan = args.nchan # number of channels
+# svel = args.svel # starting velocity
+# linename = args.line
+# rfreq = line_dict[linename] # rest freq of line
+# parallel = False
 
-# determine which steps to perform
-prep_data = False
-make_config = False
-make_start_script = False
+# # determine which steps to perform
+# prep_data = False
+# make_config = False
+# make_start_script = False
 
-if args.action=='all':
-    prep_data=True
-    make_config=True
-    make_start_script=True
-elif args.action == 'make_scripts':
-    make_config=True
-    make_start_script=True
-elif args.action == 'config':
-    make_config=True
-elif args.action == 'start_script':
-    make_start_script=True
 
-def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename='C18O'):
+def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename, remove_files=True):
 
     line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
     rfreq = '219.56035410GHz' # assume C18O
@@ -168,16 +157,6 @@ def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename='C18O'
     output_file = data_dir + source + '_' + linename + '_50klam.hdf5'
     new_data = uv.Visibilities(new_u, new_v, data.freq, new_real, new_imag, new_weights)
     new_data.write(output_file)
-    if args.remove_files:
+    if remove_files:
         os.system('rm -rf {}/*.ms'.format(data_dir))
         os.system('rm -rf {}/*.listobs'.format(data_dir))
-
-
-
-if make_config:
-    if not os.path.exists(args.model_dir):
-        os.system("mkdir {}".format(args.model_dir))
-    create_config(data_dir, args.model_dir, linename, args.disk_type, args.dpc)
-
-if make_start_script:
-    create_batch_submit(source, args.model_dir, args.user)
