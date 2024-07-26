@@ -1,3 +1,4 @@
+import os
 from prep_lines import prep_data
 from create_config import create_config
 from create_batch_submit import create_batch_submit
@@ -27,6 +28,12 @@ class Model:
                       nchan=self.nchan, svel=self.svel, robust=self.robust,
                       linename=self.linename, remove_files=remove_files)
         
+        if config or batch_script:
+            for disk_type in self.disk_types:
+                model_dir = self.path + disk_type + "/"
+                if not os.path.exists(model_dir):
+                    os.system("mkdir {}".format(model_dir))
+
         if config:
             for disk_type in self.disk_types:
                 create_config(source=self.name, source_dir=self.path, line=self.linename,
