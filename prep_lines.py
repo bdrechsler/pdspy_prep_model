@@ -60,15 +60,14 @@ elif args.action == 'config':
 elif args.action == 'start_script':
     make_start_script=True
 
-# path to data
-data_dir = args.data_dir
-line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
+def prep_data(source, data_dir, chan_width, nchan, svel, robust, linename='C18O'):
 
-"""
-#### Regrid the data #####
-"""
-if prep_data:
-    print("Regridding")
+    line_vis_list = glob.glob(data_dir + "*spectral_line.ms") # list of spectral line ms files
+    rfreq = '219.56035410GHz' # assume C18O
+
+    """
+    #### Regrid the data #####
+    """
     regrid_vis = []
 
     for line_vis in line_vis_list:
@@ -117,13 +116,10 @@ if prep_data:
     """
     ##### Clean and Image the Data #######
     """
-    print("Imaging")
 
     imagename = data_dir + source + '_' + linename + '_t2000klam'
     for ext in ['.image','.mask','.model','.pb','.psf','.residual','.sumwt','.workingdirectory']:
         os.system('rm -rf ' + imagename + ext)
-
-    print("Running tlean:")
 
     if args.uvcut:
         uvrange='>50klambda'
@@ -133,7 +129,7 @@ if prep_data:
     tclean(vis=regrid_vis, spw='', imagename=imagename, specmode='cube', imsize=512,
         deconvolver='hogbom', start=svel, width=chan_width, nchan=nchan, outframe='LSRK',
         veltype='radio', restfreq=rfreq, cell='0.025arcsec',
-        gain=0.1, niter=20000, weighting='briggs', robust=args.robust, threshold='1.0mJy',
+        gain=0.1, niter=20000, weighting='briggs', robust=robust, threshold='1.0mJy',
         usemask='auto-multithresh', sidelobethreshold=2.0, noisethreshold=4.0,
         lownoisethreshold=1.0, interactive=False, restoringbeam='common',
         uvtaper=['2000klambda'], uvrange=uvrange, parallel=parallel)
@@ -159,12 +155,7 @@ if prep_data:
     data = uv.readms(filename=concat_file, datacolumn='data')
 
     # find indicies where weights are non-zero
-    if args.uvcut:
-        good, = np.where((data.weights[:,0] > 0) & (data.uvdist > 50000))
-        cut_name = "_50klam"
-    else:
-        good, = np.where(data.weights[:,0] > 0)
-        cut_name = ""
+    good, = np.where((data.weights[:,0] > 0) & (data.uvdist > 50000))
 
     # find data values at these indicies
     new_u = data.u[good]
@@ -174,12 +165,13 @@ if prep_data:
     new_weights = data.weights[good,:]
     # create hdf5 file
     os.system("rm -rf {}/*.hdf5".format(data_dir))
-    output_file = data_dir + source + '_' + linename + cut_name +  '.hdf5'
+    output_file = data_dir + source + '_' + linename + '_50klam.hdf5'
     new_data = uv.Visibilities(new_u, new_v, data.freq, new_real, new_imag, new_weights)
     new_data.write(output_file)
     if args.remove_files:
         os.system('rm -rf {}/*.ms'.format(data_dir))
         os.system('rm -rf {}/*.listobs'.format(data_dir))
+
 
 
 if make_config:
