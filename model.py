@@ -29,7 +29,7 @@ class Model:
         
         if config:
             for disk_type in self.disk_types:
-                create_config(source_dir=self.path, line=self.linename,
+                create_config(source=self.name, source_dir=self.path, line=self.linename,
                               disk_type=disk_type, dpc=self.dpc)
                 
         if batch_script:
