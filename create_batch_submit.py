@@ -2,7 +2,6 @@ import os
 
 def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.8'):
     fname = "{0}{1}/batch_submit.sh".format(source_dir, disk_type)
-    home_dir = os.environ['HOME']
     model_path = source_dir + disk_type + '/'
     with open(fname, 'w') as batch:
         batch.write('#PBS -S /bin/sh\n')
@@ -11,7 +10,7 @@ def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.
         batch.write('#PBS -j oe\n')
         batch.write('#PBS -m bae\n')
         batch.write('#PBS -N {}\n'.format(source))
-        batch.write('source {}/.bash_profile\n'.format(home_dir))
+        batch.write('source ~/.bash_profile\n')
         batch.write('cd {}\n'.format(model_path))
         batch.write('conda activate {}\n'.format(environ))
         batch.write('rm nodelist\n')
