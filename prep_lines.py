@@ -105,7 +105,7 @@ def prep_data(source, source_dir, chan_width, nchan, svel, robust, linename, rem
     """
     ##### Clean and Image the Data #######
     """
-
+    data_dir = source_dir + 'data/'
     imagename = data_dir + source + '_' + linename + '_t2000klam'
     for ext in ['.image','.mask','.model','.pb','.psf','.residual','.sumwt','.workingdirectory']:
         os.system('rm -rf ' + imagename + ext)
