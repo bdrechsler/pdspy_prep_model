@@ -3,6 +3,7 @@ import os
 def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.8'):
     fname = "{0}{1}/batch_submit.sh".format(source_dir, disk_type)
     home_dir = os.environ['HOME']
+    model_path = source_dir + disk_type + '/'
     with open(fname, 'w') as batch:
         batch.write('#PBS -S /bin/sh\n')
         batch.write('#PBS -l select=4:ncpus=28:mpiprocs=1:model=bro\n')
