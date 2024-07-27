@@ -21,7 +21,7 @@ class Model:
         self.disk_types = disk_types
     
     def prep_model(self, data=True, config=True, batch_script=True,
-                   remove_files=True):
+                   remove_files=False):
 
         if data:
             prep_data(source=self.name, source_dir=self.path, chan_width=self.chan_width,
