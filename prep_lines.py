@@ -1,53 +1,11 @@
 #!/usr/bin/env python
-
 import glob
 import os
 import numpy as np
 from casatasks import mstransform, tclean, listobs, concat, rmtables, impbcor, exportfits
 import pdspy.interferometry as uv
-import argparse
 from create_config import create_config
 from create_batch_submit import create_batch_submit
-
-"""###################################
-###### Regridding Parameters #########
-######################################"""
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument('--source', type=str)
-# parser.add_argument('--chan_width', type=str, default='0.334km/s')
-# parser.add_argument('--nchan', type=int, default=36)
-# parser.add_argument('--svel', type=str, default='-2.0km/s')
-# parser.add_argument('--line', type=str, default='C18O')
-# parser.add_argument('--uvcut', action='store_false')
-# parser.add_argument('--robust', type=float, default=2.0)
-# parser.add_argument('--data_dir', type=str, default='./data/')
-# parser.add_argument('--model_dir', type=str)
-# parser.add_argument('--disk_type', type=str, default='dartois-truncated')
-# parser.add_argument('--dpc', type=float, default=132.)
-# parser.add_argument('--user', type=str, default='')
-# parser.add_argument('--remove_files', action='store_true')
-# parser.add_argument('--action', type=str)
-# args = parser.parse_args()
-
-# line_dict = {'C18O': '219.56035410GHz',
-#              '13CO': '220.39868420GHz',
-#              'CH3OH': '241.80652400GHz',
-#              'C17O': '224.714743800GHz'}
-
-# source = args.source # source name
-# chan_width = args.chan_width # channel width
-# nchan = args.nchan # number of channels
-# svel = args.svel # starting velocity
-# linename = args.line
-# rfreq = line_dict[linename] # rest freq of line
-# parallel = False
-
-# # determine which steps to perform
-# prep_data = False
-# make_config = False
-# make_start_script = False
-
 
 def prep_data(source, source_dir, chan_width, nchan, svel, robust, linename, remove_files):
 

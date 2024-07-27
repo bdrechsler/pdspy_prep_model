@@ -27,10 +27,10 @@ def create_config(source, source_dir, line, disk_type, dpc):
     data_file = "../data/{0}_{1}_50klam.hdf5".format(source, line)
     image_file= "../data/{0}_{1}_t2000klam.image.fits".format(source, line)
 
-    line_dict = {'C18O': '219.56035410GHz',
-                '13CO': '220.39868420GHz',
-                'CH3OH': '241.80652400GHz',
-                'C17O': '224.714743800GHz'}
+    line_dict = {'C18O': '219.56035410',
+                '13CO': '220.39868420',
+                'CH3OH': '241.80652400',
+                'C17O': '224.714743800'}
 
     visibilities = {
             "file":[data_file],
