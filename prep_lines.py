@@ -7,7 +7,7 @@ import pdspy.interferometry as uv
 from create_config import create_config
 from create_batch_submit import create_batch_submit
 
-def prep_data(source, source_dir, chan_width, nchan, svel, robust, linename, remove_files):
+def prep_data(source, source_dir, chan_width, nchan, vsys, robust, linename, remove_files):
 
     line_vis_list = glob.glob(source_dir + "data/*spectral_line.ms") # list of spectral line ms files
     rfreq = '219.56035410GHz' # assume C18O
@@ -52,6 +52,8 @@ def prep_data(source, source_dir, chan_width, nchan, svel, robust, linename, rem
         outfile = line_vis.replace('spectral_line.ms', linename+'_lsrk.ms') # name of output ms file
         print("Creating " + outfile)
         os.system("rm -rf " + outfile)
+
+        svel = str(vsys - 7.0) + "km/s"
 
         mstransform(vis=line_vis, regridms=True, mode='velocity', outputvis=outfile,
                     outframe='LSRK', veltype='radio', restfreq=rfreq, datacolumn='data',
