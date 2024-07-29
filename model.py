@@ -6,7 +6,7 @@ from create_batch_submit import create_batch_submit
 class Model:
     
     def __init__(self, name, dpc, path, user, linename='C18O', chan_width='0.334km/s',
-                 nchan=36, svel="-2.0km/s", robust=2,
+                 nchan=42, svel="-2.0km/s", robust=2,
                  disk_types=["truncated", "exptaper", "dartois-exptaper", "dartois-truncated"]):
         
         self.name = name
