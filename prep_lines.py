@@ -7,7 +7,9 @@ import pdspy.interferometry as uv
 from create_config import create_config
 from create_batch_submit import create_batch_submit
 
-def prep_data(source, source_dir, chan_width, nchan, vsys, robust, linename, remove_files):
+def prep_data(source, chan_width, nchan, vsys, robust, linename, remove_files):
+
+    source_dir = os.environ['PDSPY_LOCAL_DIR'] + source + '/'
 
     line_vis_list = glob.glob(source_dir + "data/*spectral_line.ms") # list of spectral line ms files
     rfreq = '219.56035410GHz' # assume C18O

@@ -23,7 +23,10 @@ def write_dynesty_params(file, nwalkers=100, steps_per_iter=20, max_nsteps=2000,
     file.write('walks = {}\n\n'.format(walks))
 
 
-def create_config(source, source_dir, line, disk_type, dpc, vsys, x0, y0):
+def create_config(source, line, disk_type, dpc, vsys, x0, y0):
+    
+    source_dir = os.environ['PDSPY_LOCAL_DIR'] + source + '/'
+
     data_file = "../data/{0}_{1}_50klam.hdf5".format(source, line)
     image_file= "../data/{0}_{1}_t2000klam.image.fits".format(source, line)
 

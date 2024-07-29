@@ -1,17 +1,23 @@
 import os
 
-def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.8'):
+def create_batch_submit(source, disk_type, user, environ='pdspy-2.0.8'):
+
+    source_dir = os.environ['PDSPY_LOCAL_DIR'] + source + '/'
+    remote_dir = os.environ['PDSPY_REMOTE_DIR'] + source + '/'
     fname = "{0}{1}/batch_submit.sh".format(source_dir, disk_type)
-    model_path = source_dir + disk_type + '/'
+    
+    local_model_path = source_dir + disk_type + '/'
+    remote_model_path = remote_dir + disk_type + '/'
+    
     with open(fname, 'w') as batch:
         batch.write('#PBS -S /bin/sh\n')
         batch.write('#PBS -l select=4:ncpus=28:mpiprocs=1:model=bro\n')
         batch.write('#PBS -l walltime=96:00:00\n')
         batch.write('#PBS -j oe\n')
         batch.write('#PBS -m bae\n')
-        batch.write('#PBS -N {}\n'.format(source))
+        batch.write('#PBS -N {0}_{1}\n'.format(source, disk_type))
         batch.write('source ~/.bash_profile\n')
-        batch.write('cd {}\n'.format(model_path))
+        batch.write('cd {}\n'.format(remote_model_path))
         batch.write('conda activate {}\n'.format(environ))
         batch.write('rm nodelist\n')
         batch.write('qstat -nu {} -x $PBS_JOBID |tail -n1 > nodes\n'.format(user))
@@ -20,7 +26,7 @@ def create_batch_submit(source, source_dir, disk_type, user, environ='pdspy-2.0.
         batch.write('python3 makenodelist.py\n')
         batch.write('mpiexec -np 112 --hostfile nodelist flared_model_nested.py --object {0} --ncpus 1 --ftcode galario-unstructured\n'.format(source))
 
-    with open(model_path + 'make_nodelist.py', 'w') as nodelist:
+    with open(local_model_path + 'make_nodelist.py', 'w') as nodelist:
         nodelist.write("file1=open('pbs_nodefile')\n")
         nodelist.write("nodeline=file1.readlines()\n")
         nodelist.write("file1.close()\n")
