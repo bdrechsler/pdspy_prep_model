@@ -23,7 +23,7 @@ def write_dynesty_params(file, nwalkers=100, steps_per_iter=20, max_nsteps=2000,
     file.write('walks = {}\n\n'.format(walks))
 
 
-def create_config(source, source_dir, line, disk_type, dpc):
+def create_config(source, source_dir, line, disk_type, dpc, x0, y0):
     data_file = "../data/{0}_{1}_50klam.hdf5".format(source, line)
     image_file= "../data/{0}_{1}_t2000klam.image.fits".format(source, line)
 
@@ -103,8 +103,8 @@ def create_config(source, source_dir, line, disk_type, dpc):
         # Viewing parameters.
             "i":{"fixed":False, "value":90.0, "limits":[0.,180.]},
             "pa":{"fixed":False, "value":94.85, "limits":[0.0, 360.0]},
-            "x0":{"fixed":False, "value":0, "limits":[-0.3,0.3]},
-            "y0":{"fixed":False, "value":0, "limits":[-0.3,0.3]},
+            "x0":{"fixed":False, "value":0, "limits": x0},
+            "y0":{"fixed":False, "value":0, "limits": y0},
             "dpc":{"fixed":True, "value":dpc, "limits":[1.,1e6]},
             "Ak":{"fixed":True, "value":0., "limits":[0.,1.]},
             "v_sys":{"fixed":False, "value":6.0, "limits":[-5.0, 10.0]}
