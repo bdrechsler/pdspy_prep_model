@@ -107,7 +107,7 @@ def create_config(source, source_dir, line, disk_type, dpc):
             "y0":{"fixed":False, "value":0, "limits":[-0.3,0.3]},
             "dpc":{"fixed":True, "value":dpc, "limits":[1.,1e6]},
             "Ak":{"fixed":True, "value":0., "limits":[0.,1.]},
-            "v_sys":{"fixed":False, "value":6.0, "limits":[0.0, 10.0]}
+            "v_sys":{"fixed":False, "value":6.0, "limits":[-5.0, 10.0]}
             }
 
     if "dartois" in disk_type:
