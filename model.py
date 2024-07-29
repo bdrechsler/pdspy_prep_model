@@ -5,13 +5,12 @@ from create_batch_submit import create_batch_submit
 
 class Model:
     
-    def __init__(self, name, dpc, path, user, vsys, linename='C18O', chan_width='0.334km/s',
+    def __init__(self, name, dpc, user, vsys, linename='C18O', chan_width='0.334km/s',
                  nchan=42, robust=2, x0=[-0.5, 0.5], y0=[-0.5, 0.5],
                  disk_types=["truncated", "exptaper", "dartois-exptaper", "dartois-truncated"]):
         
         self.name = name
         self.dpc = dpc
-        self.path = path
         self.user = user
         self.linename = linename
         self.chan_width = chan_width
@@ -24,8 +23,8 @@ class Model:
                    remove_files=False):
 
         if data:
-            prep_data(source=self.name, source_dir=self.path, chan_width=self.chan_width,
-                      nchan=self.nchan, svel=self.svel, robust=self.robust,
+            prep_data(source=self.name, chan_width=self.chan_width,
+                      nchan=self.nchan, svys=self.vsys, robust=self.robust,
                       linename=self.linename, remove_files=remove_files)
         
         if config or batch_script:
@@ -36,10 +35,9 @@ class Model:
 
         if config:
             for disk_type in self.disk_types:
-                create_config(source=self.name, source_dir=self.path, line=self.linename,
+                create_config(source=self.name, line=self.linename,
                               disk_type=disk_type, dpc=self.dpc)
                 
         if batch_script:
             for disk_type in self.disk_types:
-                create_batch_submit(source=self.name, source_dir=self.path,
-                                    disk_type=disk_type, user=self.user)
+                create_batch_submit(source=self.name, disk_type=disk_type, user=self.user)
