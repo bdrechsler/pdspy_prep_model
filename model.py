@@ -17,6 +17,8 @@ class Model:
         self.nchan = nchan
         self.vsys = vsys
         self.robust = robust
+        self.x0=x0
+        self.y0=y0
         self.disk_types = disk_types
     
     def prep_model(self, data=True, config=True, batch_script=True,
@@ -24,7 +26,7 @@ class Model:
 
         if data:
             prep_data(source=self.source, chan_width=self.chan_width,
-                      nchan=self.nchan, svys=self.vsys, robust=self.robust,
+                      nchan=self.nchan, vsys=self.vsys, robust=self.robust,
                       linename=self.linename, remove_files=remove_files)
         
         if config or batch_script:
@@ -36,7 +38,8 @@ class Model:
         if config:
             for disk_type in self.disk_types:
                 create_config(source=self.source, line=self.linename,
-                              disk_type=disk_type, dpc=self.dpc)
+                              disk_type=disk_type, dpc=self.dpc, vsys=self.vsys,
+                              x0=self.x0, y0=self.y0)
                 
         if batch_script:
             for disk_type in self.disk_types:
