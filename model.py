@@ -31,7 +31,7 @@ class Model:
         
         if config or batch_script:
             for disk_type in self.disk_types:
-                model_dir = os.environ['PDSPY_LOCAL_DIR'] + self.name + '/' + disk_type + "/"
+                model_dir = os.environ['PDSPY_LOCAL_DIR'] + self.source + '/' + disk_type + "/"
                 if not os.path.exists(model_dir):
                     os.system("mkdir {}".format(model_dir))
 
