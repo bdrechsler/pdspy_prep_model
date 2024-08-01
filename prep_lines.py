@@ -119,4 +119,4 @@ def prep_data(source, chan_width, nchan, vsys, robust, linename, remove_files):
     if remove_files:
         os.system('rm -rf {}/*.ms'.format(data_dir))
         os.system('rm -rf {}/*.listobs'.format(data_dir))
-        os.system('rm -rf {}/*sumwt.'.format(data_dir))
+        os.system('rm -rf {}/*.sumwt'.format(data_dir))
