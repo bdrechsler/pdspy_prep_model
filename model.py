@@ -22,7 +22,7 @@ class Model:
         self.disk_types = disk_types
     
     def prep_model(self, data=True, config=True, batch_script=True,
-                   remove_files=False):
+                   remove_files=False, remote=1):
 
         if data:
             prep_data(source=self.source, chan_width=self.chan_width,
@@ -43,4 +43,4 @@ class Model:
                 
         if batch_script:
             for disk_type in self.disk_types:
-                create_batch_submit(source=self.source, disk_type=disk_type, user=self.user)
+                create_batch_submit(source=self.source, disk_type=disk_type, user=self.user, remote=remote)
