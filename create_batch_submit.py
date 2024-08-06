@@ -12,6 +12,7 @@ def create_batch_submit(source, disk_type, user, environ='pdspy-2.0.8'):
     with open(fname, 'w') as batch:
         batch.write('#PBS -S /bin/sh\n')
         batch.write('#PBS -l select=4:ncpus=28:mpiprocs=1:model=bro\n')
+        batch.write('#PBS -l site=static_broadwell\n')
         batch.write('#PBS -l walltime=96:00:00\n')
         batch.write('#PBS -j oe\n')
         batch.write('#PBS -m bae\n')
