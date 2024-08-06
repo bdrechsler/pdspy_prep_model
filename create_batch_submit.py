@@ -7,7 +7,7 @@ def create_batch_submit(source, disk_type, user, environ='pdspy-2.0.8', remote=1
         remote_dir = os.environ['PDSPY_REMOTE_DIR'] + source + '/'
     elif remote == 2:
         remote_dir = os.environ['PDSPY_REMOTE_DIR2'] + source + '/'
-        
+
     fname = "{0}{1}/batch_submit.sh".format(source_dir, disk_type)
     
     local_model_path = source_dir + disk_type + '/'
@@ -28,7 +28,7 @@ def create_batch_submit(source, disk_type, user, environ='pdspy-2.0.8', remote=1
         batch.write('qstat -nu {} -x $PBS_JOBID |tail -n1 > nodes\n'.format(user))
         batch.write('cat $PBS_NODEFILE > pbs_nodefile\n')
         batch.write('echo $PBS_NODEFILE > pbs_nodefile_path\n')
-        batch.write('python3 makenodelist.py\n')
+        batch.write('python3 make_nodelist.py\n')
         batch.write('mpiexec -np 112 --hostfile nodelist flared_model_nested.py --object {0} --ncpus 1 --ftcode galario-unstructured\n'.format(source))
 
     with open(local_model_path + 'make_nodelist.py', 'w') as nodelist:
