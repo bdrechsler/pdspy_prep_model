@@ -121,6 +121,7 @@ def create_config(source, line, disk_type, dpc, vsys, x0, y0):
             parameters["pltgas_mid"] = {"fixed":False, "value":0.5, "limits":[0.,1.]}
             parameters["pltgas_atm"] = {"fixed":False, "value":"pltgas_mid", "limits":[0.,1.]}
             parameters["zq0"] = {"fixed":False, "value":0.1, "limits":[0.01,0.5]}
+            parameters["plz"] = {"fixed":True, "value":1.3, "limits":[1., 1.5]}
     
     model_dir = "{0}{1}/".format(source_dir, disk_type)
     with open(model_dir + 'config.py', 'w') as config:
