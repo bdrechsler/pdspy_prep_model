@@ -48,5 +48,5 @@ def create_batch_submit(source, disk_type, user, environ='pdspy-2.0.8', remote=1
 
     with open(local_model_path + 'runmodel.csh', 'w') as runmodel:
         run_command = "xvfb-run mpiexec -np 48 flared_model_nested.py -o \
-            {} -n 1 --ftcode galario-unstructured".format(source)
+{} -n 1 --ftcode galario-unstructured".format(source)
         runmodel.write(run_command)
