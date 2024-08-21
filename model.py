@@ -1,4 +1,5 @@
 import os
+import glob
 from prep_lines import prep_data
 from create_config import create_config
 from create_batch_submit import create_batch_submit
@@ -23,8 +24,11 @@ class Model:
     
     def prep_model(self, data=True, config=True, batch_script=True,
                    remove_files=False, remote=1):
-
-        if data:
+        
+        # if there are ms files, prep the data
+        data_dir = os.environ['PDSPY_LOCAL_DIR'] + self.source + '/data/'
+        ms_files = glob.glob(data_dir + "*.ms")
+        if data and len(ms_files) != 0:
             prep_data(source=self.source, chan_width=self.chan_width,
                       nchan=self.nchan, vsys=self.vsys, robust=self.robust,
                       linename=self.linename, remove_files=remove_files)
